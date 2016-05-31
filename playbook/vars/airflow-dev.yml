@@ -1,0 +1,24 @@
+---
+mysql_airflow_user: "airflow"
+mysql_airflow_password: "im-also-so-secret"
+
+mysql_root_password: im-so-secret
+mysql_databases:
+  - name: airflow
+    encoding: utf8
+    collation: utf8_general_ci
+mysql_users:
+  - name: "{{ mysql_airflow_user }}"
+    host: "%"
+    password: "{{ mysql_airflow_password }}"
+    priv: "airflow.*:ALL"
+
+airflow_timezone: "US/Pacific"
+airflow_web_server_port: "8201"
+airflow_web_server_url: "http://127.0.0.1:{{ airflow_web_server_port }}"
+airflow_fernet_key: "uyxvMw36azr14ICoZ8j-nL1Zcr30tGaNfUWep1D6phY="
+airflow_db_host: "127.0.0.1"
+airflow_mail_from: "airflow@somewhere.com"
+
+aws_access_key_id: "someid"
+aws_secret_access_key: "somekey"
