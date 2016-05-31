@@ -3,7 +3,7 @@ from operators.lambda_operator import LambdaOperator
 from operators.s3_sensor import S3TimestampedSensor
 from airflow import DAG
 
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 
 # DAG
@@ -11,7 +11,6 @@ daily_etls = DAG(
     dag_id='daily_etls',
     schedule_interval=timedelta(days=1),
     concurrency=4,
-    # start_date=datetime(2016, 2, 22),
     start_date=DAG_START,
     default_args=DEFAULT_ARGS
 )
