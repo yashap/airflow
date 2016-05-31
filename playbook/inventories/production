@@ -1,0 +1,7 @@
+[default]
+some.host.com
+
+[all:vars]
+env=prod
+os_user=ubuntu
+airflow_email_to=some_email@some_domain.com
