@@ -1,0 +1,13 @@
+---
+- name: "ensure airflow init scripts are copied"
+  template: src=initd.template dest="/etc/init.d/{{item.service_name}}" mode=0755
+  with_items: services
+
+- name: "register airflow services to be started on server startup"
+  command: sudo update-rc.d "{{ item.service_name }}" defaults
+  with_items: services
+
+- name: "ensure all airflow services are started"
+  service: name="{{ item.service_name }}" state=started
+  with_items: services
+  when: env == 'dev'

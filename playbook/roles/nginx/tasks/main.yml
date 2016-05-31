@@ -1,0 +1,30 @@
+---
+- name: "apt-get update"
+  action: apt update-cache=yes
+
+- name: "ensure python-software package required for apt_repository"
+  action: apt pkg=python-software-properties state=latest
+
+- name: "add nginx apt repository"
+  action: apt_repository repo='ppa:nginx/stable'
+
+- name: "apt-get update"
+  action: apt update-cache=yes
+
+- name: "install nginx"
+  action: apt pkg=nginx state=latest
+
+- name: "install nginx configuration"
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: "start nginx"
+  service: name=nginx state=started
+
+- name: "create the backends-available dir"
+  file: path=/etc/nginx/backends-available state=directory
+
+- name: "create the backends-enabled dir"
+  file: path=/etc/nginx/backends-enabled state=directory
+
+- name: "register nginx to be started on server startup"
+  command: sudo update-rc.d nginx defaults

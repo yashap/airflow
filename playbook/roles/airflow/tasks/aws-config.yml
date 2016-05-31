@@ -1,0 +1,24 @@
+---
+- name: "ensure ~/.aws dir exists"
+  file:
+    path="{{ aws_config_home }}"
+    state=directory
+    mode=0755
+    owner="{{ os_user }}"
+    group="{{ os_user }}"
+
+- name: "ensure aws credentials are copied"
+  template:
+    src="aws-credentials"
+    dest="{{ aws_config_home }}/credentials"
+    mode=0600
+    owner="{{ os_user }}"
+    group="{{ os_user }}"
+
+- name: "ensure aws config is copied"
+  copy:
+    src="aws-config"
+    dest="{{ aws_config_home }}/config"
+    mode=0600
+    owner="{{ os_user }}"
+    group="{{ os_user }}"

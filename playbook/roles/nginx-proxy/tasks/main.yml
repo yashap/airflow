@@ -1,0 +1,12 @@
+---
+- name: "install nginx proxy config"
+  template:
+    src=nginx-default-conf
+    dest=/etc/nginx/sites-available/default
+    mode=0644
+    owner=root
+    group=root
+    force=yes
+
+- name: "restart nginx"
+  service: name=nginx state=restarted

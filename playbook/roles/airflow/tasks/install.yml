@@ -1,0 +1,49 @@
+---
+- name: "ensure AIRFLOW_HOME env var is set for os user"
+  lineinfile:
+    dest="{{ os_user_home }}/.profile"
+    line="export AIRFLOW_HOME={{ service_home }}"
+
+- name: "ensure required apt packages are installed and upgraded"
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+  - python2.7
+  - python2.7-dev
+  - python-setuptools
+  - python-pip
+  - libkrb5-dev
+  - libsasl2-dev
+  - libmysqlclient-dev
+  - libpq-dev
+  - libffi-dev
+
+- name: "ensure airflow is installed with python dependencies"
+  pip: name={{ item }}
+  with_items:
+  - "boto3==1.3.1"
+  - "awscli==1.10.32"
+  - "amqp==1.4.9"
+  - "anyjson==0.3.3"
+  - "celery==3.1.23"
+  - "airflow=={{ airflow_version }}"
+  - "airflow[mysql]=={{ airflow_version }}"
+  - "airflow[crypto]=={{ airflow_version }}"
+
+- name: "ensure airflow home dir exists"
+  file:
+    path="{{ service_home }}"
+    state=directory
+    mode=0755
+    owner="{{ os_user }}"
+    group="{{ os_user }}"
+
+- name: "ensure airflow config is copied"
+  template:
+    src=airflow.cfg
+    dest="{{ service_home }}/airflow.cfg"
+    mode=0644
+    owner="{{ os_user }}"
+    group="{{ os_user }}"
+
+- name: "initialize airflow database"
+  command: airflow initdb

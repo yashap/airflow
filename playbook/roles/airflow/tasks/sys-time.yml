@@ -1,0 +1,13 @@
+---
+- name: "remove existing localtime"
+  file:
+    path="/etc/localtime"
+    state=absent
+
+- name: "set localtime"
+  file:
+    src="/usr/share/zoneinfo/{{ airflow_timezone }}"
+    dest="/etc/localtime"
+    owner="{{ os_user }}"
+    group="{{ os_user }}"
+    state=link

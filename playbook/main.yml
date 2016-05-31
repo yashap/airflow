@@ -1,0 +1,22 @@
+---
+- name: airflow
+  user: "{{ os_user }}"
+  hosts: all
+  sudo: true
+  sudo_user: root
+
+  vars:
+    project: airflow
+    os_user_home: "/home/{{ os_user }}"
+
+  vars_files:
+  - "vars/{{ project }}-{{ env }}.yml"
+
+  roles:
+   - { role: mysql }
+   - { role: airflow }
+   - { role: nginx }
+   - { role: nginx-proxy, proxy_from: "{{ inventory_hostname }}", proxy_to: "{{ airflow_web_server_url }}" }
+
+  environment:
+    AIRFLOW_HOME: "{{ service_home }}"

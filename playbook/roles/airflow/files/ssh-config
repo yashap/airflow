@@ -1,0 +1,19 @@
+Host etl-load-events
+  HostName 192.168.33.14
+  User vagrant
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /home/vagrant/.ssh/etl-load-events
+  IdentitiesOnly yes
+  LogLevel FATAL
+
+Host etl-organization-stats
+  HostName 192.168.33.13
+  User vagrant
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /home/vagrant/.ssh/etl-organization-stats
+  IdentitiesOnly yes
+  LogLevel FATAL
