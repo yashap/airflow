@@ -1,5 +1,5 @@
 [default]
-some.host.com
+some.prod.host.com
 
 [all:vars]
 env=prod

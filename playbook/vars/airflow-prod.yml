@@ -20,5 +20,5 @@ airflow_fernet_key: "uyxvMw36azr14ICoZ8j-nL1Zcr30tGaNfUWep1D6phY="
 airflow_db_host: "127.0.0.1"
 airflow_mail_from: "airflow@somewhere.com"
 
-aws_access_key_id: "someid"
-aws_secret_access_key: "somekey"
+aws_access_key_id: "some_id"
+aws_secret_access_key: "some_key"
