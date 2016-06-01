@@ -5,29 +5,26 @@ import boto3
 import logging
 import json
 import base64
-from datetime import datetime
 
 
 class LambdaOperator(BaseOperator):
 
     @apply_defaults
-    def __init__(self, lambda_function_name, *args, **kwargs):
+    def __init__(self, context_to_payload, lambda_function_name, *args, **kwargs):
         super(LambdaOperator, self).__init__(*args, **kwargs)
+        self.context_to_payload = context_to_payload
         self.lambda_function_name = lambda_function_name
         self.lambda_client = boto3.client('lambda')
 
     def execute(self, context):
-        end_date = datetime.strptime(context['tomorrow_ds'], '%Y-%m-%d')
-        request_payload = {
-            'endDate': end_date.strftime('%Y-%m-%d %H:%M:%S')
-        }
+        request_payload = self.context_to_payload(context)
 
-        logging.info('Making the following request against AWS Lambda %s' % json.dumps(request_payload))  # TODO: remove
+        logging.info('Making the following request against AWS Lambda %s' % request_payload)
 
         response = self.lambda_client.invoke(
             FunctionName=self.lambda_function_name,
             InvocationType='RequestResponse',
-            Payload=bytearray(json.dumps(request_payload)),
+            Payload=bytearray(request_payload),
             LogType='Tail'
         )
 

@@ -1,19 +1,20 @@
-from airflow.operators import BaseSensorOperator
+from airflow.operators.sensors import BaseSensorOperator
 from airflow.utils import apply_defaults
 import boto3
 
 
-class S3TimestampedSensor(BaseSensorOperator):
+class S3DatepartSensor(BaseSensorOperator):
 
     @apply_defaults
-    def __init__(self, s3_bucket, s3_prefix, *args, **kwargs):
-        super(S3TimestampedSensor, self).__init__(*args, **kwargs)
+    def __init__(self, context_to_datepart, s3_bucket, s3_prefix, *args, **kwargs):
+        super(S3DatepartSensor, self).__init__(*args, **kwargs)
+        self.context_to_datepart = context_to_datepart
         self.s3_bucket = s3_bucket
         self.s3_prefix = s3_prefix
         self.s3_client = boto3.client('s3')
 
     def poke(self, context):
-        datepart = context['tomorrow_ds'].replace('-', '/')
+        datepart = self.context_to_datepart(context)
         prefix_to_check = '{prefix}/{datepart}'.format(
             prefix=self.s3_prefix,
             datepart=datepart

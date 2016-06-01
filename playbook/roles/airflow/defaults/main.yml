@@ -1,6 +1,6 @@
 ---
 service_home: "{{ os_user_home }}/airflow"
-airflow_version: "1.6.2"
+airflow_version: "1.7.1.2"
 aws_config_home: "{{ os_user_home }}/.aws"
 
 db_name: "airflow"
