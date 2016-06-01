@@ -1,5 +1,6 @@
 from airflow.operators import BaseOperator
-from airflow.utils import apply_defaults, AirflowException
+from airflow.utils import apply_defaults
+from airflow.exceptions import AirflowException
 import boto3
 
 import logging

@@ -56,7 +56,7 @@ The DAG definitions can be found in the `workflows` dir.
 ## Running the App in Prod
 Run the playbook against the prod inventory:
 
-    $ ansible-playbook main.yml -i playbook/inventories/production
+    $ ansible-playbook main.yml -i inventories/production
 
 Deploy the airflow dir via your favourite means to `$AIRFLOW_HOME` on the prod server.  For a quick MVP, if you don't
 want to use a more formal build/deploy tool, you can just tar and scp the dir up to the server.  Restart Airflow
